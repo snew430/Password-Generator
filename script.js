@@ -3,8 +3,7 @@
 // ======ARRAYS BEGIN=========
 
 // UPPERCASE ARRAY
-const uppercase = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-];
+const uppercase = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
 // LOWERCASE ARRAY
 const lowercase = ["abcdefghijklmnopqrstuvwxyz"];
@@ -17,9 +16,8 @@ const specChar = ["!@#$%&?"];
 
 // ==========ARRAYS END=========
 
-
-// Length of the password
-var passLength = function() {
+// LENGTH OF PASSWORD
+var passLength = function () {
   //   made passLength into an integer "nine" changed to "9"
   var passLength = parseInt(
     prompt(
@@ -40,64 +38,106 @@ var passLength = function() {
     );
     passLength();
   }
-  console.log(passLength);
   return passLength;
-}
+};
 
-// What items will be in entire array
-var finalArray = function() {
-  finalArray = "";
+// WHAT ELEMENTS WILL BE IN PASSWORD
+var finalArray = function () {
   var upCasePass = confirm("Would you like to include upper case letters?");
-  if (upCasePass){
-    finalArray = (finalArray + uppercase);
-  }
   var lowCasePass = confirm("Would you like to include lower case letters?");
-  if (lowCasePass){
-    finalArray = (finalArray + lowercase);
-  }
   var numPass = confirm("Would you like to include numbers?");
-  if (numPass){
-    finalArray = (finalArray + number);
-  }
   var specPass = confirm("Would you like to include special characters?");
-  if (specPass){
-    finalArray = (finalArray + specChar);
-  }
 
+  // User must choose at lease one option
   if (!upCasePass && !lowCasePass && !numPass && !specPass) {
     alert("You must choose at least one type of character");
     initAsk();
   }
+
   var userChoices = {
     upCasePass: upCasePass,
     lowCasePass: lowCasePass,
     numPass: numPass,
     specPass: specPass,
-  }
-  return userChoices;
-}
+  };
 
+  // Return the user choices
+  return userChoices;
+};
 
 // RANDOM VALUE FOR ARRAYS
-var randomValue = function(arr) {
+var randomValue = function (arr) {
   var indexNumber = Math.floor(Math.random() * arr.length);
   var indexContent = arr[indexNumber];
   return indexContent;
-}
+};
 
 // Generate the random password
-var generatePassword = function(x, y) {
-  var pass = ""
+var generatePassword = function (x, y) {
+  var finalArray = "";
+  var pass = "";
+
+  // Builds all elements the user asked for in a large array
+  if (y.upCasePass) {
+    finalArray = finalArray + uppercase;
+  }
+  if (y.lowCasePass) {
+    finalArray = finalArray + lowercase;
+  }
+  if (y.numPass) {
+    finalArray = finalArray + number;
+  }
+  if (y.specPass) {
+    finalArray = finalArray + specChar;
+  }
+
+  // Generates how many characters the user asked for
   for (i = 0; i < x; i++) {
-    pass = pass + randomValue(y)
+    pass = pass + randomValue(finalArray);
+  }
+
+  // Makes sure at least on element is in the password
+  if (y.upCasePass) {
+    hasElements(uppercase, pass);
+    if (hasElements === false) {
+      generatePassword();
+    }
+  }
+  if (y.lowCasePass) {
+    hasElements(lowercase, pass);
+    if (hasElements === false) {
+      generatePassword();
+    }
+  }
+  if (y.numPass) {
+    hasElements(number, pass);
+    if (hasElements === false) {
+      generatePassword();
+    }
+  }
+  if (y.specPass) {
+    hasElements(specChar, pass);
+    if (hasElements === false) {
+      generatePassword();
+    }
   }
   return pass;
-}
+};
 
+
+// Passes the final password to make sure it has at least one element the user asked for
+var hasElements = function (ask, has) {
+  for (i = 0; i < ask.length; i++) {
+    for (j = 0; j < has.length; j++) {
+      if (has[j] === ask[i]) {
+        return true;
+      }
+    }
+  }
+};
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
-
 
 // Write password to the #password input
 function writePassword() {
@@ -108,36 +148,7 @@ function writePassword() {
   passwordText.value = password;
 }
 
-// var sean = "sean"
-// if (sean.includes("s")) {
-//   console.log(true)
-// }else {
-//   console.log(false)
-// }
 
+// Click the button to start writePassword Function
 generateBtn.addEventListener("click", writePassword);
 
-
-//
-// GIVEN I need a new, secure password
-
-// WHEN I click the button to generate a password
-// THEN I am presented with a series of prompts for password criteria
-
-// WHEN prompted for password criteria
-// THEN I select which criteria to include in the password
-
-// WHEN prompted for the length of the password
-// THEN I choose a length of at least 8 characters and no more than 128 characters
-
-// WHEN asked for character types to include in the password
-// THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-
-// WHEN I answer each prompt
-// THEN my input should be validated and at least one character type should be selected
-
-// WHEN all prompts are answered
-// THEN a password is generated that matches the selected criteria
-
-// WHEN the password is generated
-// THEN the password is either displayed in an alert or written to the page
