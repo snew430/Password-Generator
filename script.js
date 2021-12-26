@@ -3,76 +3,23 @@
 // ======ARRAYS BEGIN=========
 
 // UPPERCASE ARRAY
-const uppercase = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
+const uppercase = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ];
 
 // LOWERCASE ARRAY
-const lowercase = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+const lowercase = ["abcdefghijklmnopqrstuvwxyz"];
 
 // NUMBER ARRAY
-const number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const number = ["0123456789"];
 
 // SPECIAL CHARACTER ARRAY
-const specChar = ["!", "@", "#", "$", "%", "&", "*", "?"];
+const specChar = ["!@#$%&?"];
 
 // ==========ARRAYS END=========
 
 
-// INITIAL ASK FUNCTION
-function initAsk() {
+// Length of the password
+var passLength = function() {
   //   made passLength into an integer "nine" changed to "9"
   var passLength = parseInt(
     prompt(
@@ -83,7 +30,7 @@ function initAsk() {
   // Answer needs to be a number
   if (isNaN(passLength) === true) {
     alert("Please enter a number");
-    initAsk();
+    passLength();
   }
   // make sure the password is the proper length
   if (passLength < 8 || passLength > 128) {
@@ -91,63 +38,86 @@ function initAsk() {
     alert(
       "Your password must be between 8 and 128 characters.  Please choose again..."
     );
-    initAsk();
+    passLength();
   }
+  console.log(passLength);
+  return passLength;
+}
 
+// What items will be in entire array
+var finalArray = function() {
+  finalArray = "";
   var upCasePass = confirm("Would you like to include upper case letters?");
+  if (upCasePass){
+    finalArray = (finalArray + uppercase);
+  }
   var lowCasePass = confirm("Would you like to include lower case letters?");
+  if (lowCasePass){
+    finalArray = (finalArray + lowercase);
+  }
   var numPass = confirm("Would you like to include numbers?");
+  if (numPass){
+    finalArray = (finalArray + number);
+  }
   var specPass = confirm("Would you like to include special characters?");
+  if (specPass){
+    finalArray = (finalArray + specChar);
+  }
 
   if (!upCasePass && !lowCasePass && !numPass && !specPass) {
     alert("You must choose at least one type of character");
     initAsk();
   }
-
   var userChoices = {
-    passLength: passLength,
     upCasePass: upCasePass,
     lowCasePass: lowCasePass,
     numPass: numPass,
     specPass: specPass,
-  };
-  console.log(userChoices);
+  }
   return userChoices;
 }
 
+
 // RANDOM VALUE FOR ARRAYS
-function randomValue(arr) {
+var randomValue = function(arr) {
   var indexNumber = Math.floor(Math.random() * arr.length);
   var indexContent = arr[indexNumber];
   return indexContent;
 }
 
-console.log(uppercase + lowercase + number + specChar);
-var password = (uppercase + lowercase + number + specChar);
-console.log(password[i])
-
-// for (i = 1; i < passLength; i++) {
-  
-// }
+// Generate the random password
+var generatePassword = function(x, y) {
+  var pass = ""
+  for (i = 0; i < x; i++) {
+    pass = pass + randomValue(y)
+  }
+  return pass;
+}
 
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
+
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var x = passLength();
+  var passArray = finalArray();
+  var password = generatePassword(x, passArray);
   var passwordText = document.querySelector("#password");
-
   passwordText.value = password;
 }
 
-// Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
-generateBtn.addEventListener("click", initAsk);
+// var sean = "sean"
+// if (sean.includes("s")) {
+//   console.log(true)
+// }else {
+//   console.log(false)
+// }
 
-//
-//
+generateBtn.addEventListener("click", writePassword);
+
+
 //
 // GIVEN I need a new, secure password
 
