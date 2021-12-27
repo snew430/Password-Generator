@@ -3,16 +3,70 @@
 // ======ARRAYS BEGIN=========
 
 // UPPERCASE ARRAY
-const uppercase = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+const uppercase = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
 // LOWERCASE ARRAY
-const lowercase = ["abcdefghijklmnopqrstuvwxyz"];
+const lowercase = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+];
 
 // NUMBER ARRAY
-const number = ["0123456789"];
+const number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 // SPECIAL CHARACTER ARRAY
-const specChar = ["!@#$%&?"];
+const specChar = ["!", "@", "#", "$", "%", "&", "?"];
 
 // ==========ARRAYS END=========
 
@@ -42,7 +96,7 @@ var passLength = function () {
 };
 
 // WHAT ELEMENTS WILL BE IN PASSWORD
-var finalArray = function () {
+var userChoices = function () {
   var upCasePass = confirm("Would you like to include upper case letters?");
   var lowCasePass = confirm("Would you like to include lower case letters?");
   var numPass = confirm("Would you like to include numbers?");
@@ -74,62 +128,65 @@ var randomValue = function (arr) {
 
 // Generate the random password
 var generatePassword = function (x, y) {
-  var finalArray = "";
+  var allElements = "";
   var pass = "";
 
   // Builds all elements the user asked for in a large array
   if (y.upCasePass) {
-    finalArray = finalArray + uppercase;
+    allElements = allElements + uppercase.join("");
   }
   if (y.lowCasePass) {
-    finalArray = finalArray + lowercase;
+    allElements = allElements + lowercase.join("");
   }
   if (y.numPass) {
-    finalArray = finalArray + number;
+    allElements = allElements + number.join("");
   }
   if (y.specPass) {
-    finalArray = finalArray + specChar;
+    allElements = allElements + specChar.join("");
   }
 
   // Generates how many characters the user asked for
   for (i = 0; i < x; i++) {
-    pass = pass + randomValue(finalArray);
+    pass = pass + randomValue(allElements);
   }
 
   // Makes sure at least on element is in the password
   if (y.upCasePass) {
-    hasElements(uppercase, pass);
-    if (hasElements === false) {
-      generatePassword();
+    var elementCondition = false;
+    elementCondition = hasElements(uppercase, pass);
+    if (elementCondition === false) {
+      generatePassword(x, y);
     }
   }
   if (y.lowCasePass) {
-    hasElements(lowercase, pass);
-    if (hasElements === false) {
-      generatePassword();
+    elementCondition = false;
+    elementCondition = hasElements(lowercase, pass);
+    if (elementCondition === false) {
+      generatePassword(x, y);
     }
   }
   if (y.numPass) {
-    hasElements(number, pass);
-    if (hasElements === false) {
-      generatePassword();
+    elementCondition = false;
+    elementCondition = hasElements(number, pass);
+    if (elementCondition === false) {
+      generatePassword(x, y);
     }
   }
   if (y.specPass) {
-    hasElements(specChar, pass);
-    if (hasElements === false) {
-      generatePassword();
+    elementCondition = false;
+    elementCondition = hasElements(specChar, pass);
+    if (elementCondition === false) {
+      generatePassword(x, y);
     }
   }
   return pass;
 };
 
-
 // Passes the final password to make sure it has at least one element the user asked for
 var hasElements = function (ask, has) {
-  for (i = 0; i < ask.length; i++) {
-    for (j = 0; j < has.length; j++) {
-      if (has[j] === ask[i]) {
+  for (i = 0; i < has.length; i++) {
+    for (j = 0; j < ask.length; j++) {
+      if (has[i] === ask[j]) {
         return true;
       }
     }
@@ -142,13 +199,11 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
   var x = passLength();
-  var passArray = finalArray();
+  var passArray = userChoices();
   var password = generatePassword(x, passArray);
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
 }
 
-
 // Click the button to start writePassword Function
 generateBtn.addEventListener("click", writePassword);
-
