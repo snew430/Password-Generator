@@ -105,7 +105,7 @@ var userChoices = function () {
   // User must choose at lease one option
   if (!upCasePass && !lowCasePass && !numPass && !specPass) {
     alert("You must choose at least one type of character");
-    initAsk();
+    userChoices();
   }
 
   var userChoices = {
@@ -114,6 +114,7 @@ var userChoices = function () {
     numPass: numPass,
     specPass: specPass,
   };
+  console.log(userChoices);
 
   // Return the user choices
   return userChoices;
@@ -145,6 +146,8 @@ var generatePassword = function (x, y) {
     allElements = allElements + specChar.join("");
   }
 
+  console.log(allElements);
+
   // Generates how many characters the user asked for
   for (i = 0; i < x; i++) {
     pass = pass + randomValue(allElements);
@@ -154,6 +157,7 @@ var generatePassword = function (x, y) {
   if (y.upCasePass) {
     var elementCondition = false;
     elementCondition = hasElements(uppercase, pass);
+    console.log(elementCondition);
     if (elementCondition === false) {
       generatePassword(x, y);
     }
@@ -161,6 +165,7 @@ var generatePassword = function (x, y) {
   if (y.lowCasePass) {
     elementCondition = false;
     elementCondition = hasElements(lowercase, pass);
+    console.log(elementCondition);
     if (elementCondition === false) {
       generatePassword(x, y);
     }
@@ -168,6 +173,7 @@ var generatePassword = function (x, y) {
   if (y.numPass) {
     elementCondition = false;
     elementCondition = hasElements(number, pass);
+    console.log(elementCondition);
     if (elementCondition === false) {
       generatePassword(x, y);
     }
@@ -175,6 +181,7 @@ var generatePassword = function (x, y) {
   if (y.specPass) {
     elementCondition = false;
     elementCondition = hasElements(specChar, pass);
+    console.log(elementCondition);
     if (elementCondition === false) {
       generatePassword(x, y);
     }
@@ -186,8 +193,15 @@ var generatePassword = function (x, y) {
 var hasElements = function (ask, has) {
   for (i = 0; i < has.length; i++) {
     for (j = 0; j < ask.length; j++) {
+      console.log(has[i] + " XXX " + ask[j]);
       if (has[i] === ask[j]) {
+        console.log(has[i] + " === " + ask[j]);
         return true;
+      } else if (
+        has[i] === has[has.length - 1] &&
+        ask[j] === ask[ask.length - 1]
+      ) {
+        return false;
       }
     }
   }
